@@ -3,18 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SK Social Media</title>
+<title>SK Social</title>
 
 <style>
-*{box-sizing:border-box}
-body{
+*{
+  box-sizing:border-box;
   margin:0;
+  padding:0;
+}
+
+body{
   font-family:Arial,sans-serif;
-  background:#fafafa;
+  background:#f5f6f8;
   color:#111;
 }
+
 header{
-  height:60px;
+  height:64px;
   background:white;
   border-bottom:1px solid #ddd;
   display:flex;
@@ -23,92 +28,114 @@ header{
   padding:0 18px;
   position:sticky;
   top:0;
+  z-index:10;
 }
+
 .logo{
-  font-size:24px;
+  font-size:25px;
   font-weight:bold;
+  color:#1877f2;
 }
-.icons{
-  font-size:24px;
+
+.menu{
+  font-size:27px;
+  cursor:pointer;
 }
-nav{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  height:65px;
-  background:white;
-  border-top:1px solid #ddd;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-}
-nav button{
-  border:0;
-  background:none;
-  font-size:14px;
-}
-main{
+
+.container{
   max-width:600px;
   margin:auto;
-  padding-bottom:80px;
+  padding:22px 16px 40px;
 }
-.story{
-  display:flex;
-  gap:15px;
-  overflow-x:auto;
-  padding:15px;
-  background:white;
-}
-.story div{
-  min-width:65px;
+
+.welcome{
   text-align:center;
-  font-size:12px;
+  padding:25px 10px;
 }
-.circle{
+
+.welcome h1{
+  font-size:32px;
+  margin-bottom:8px;
+}
+
+.welcome p{
+  color:#666;
+  font-size:15px;
+}
+
+.apps{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin-top:15px;
+}
+
+.app{
+  background:white;
+  border:1px solid #ddd;
+  border-radius:18px;
+  padding:25px 10px;
+  text-align:center;
+  text-decoration:none;
+  color:#111;
+  box-shadow:0 3px 10px rgba(0,0,0,.07);
+  transition:.2s;
+}
+
+.app:active{
+  transform:scale(.96);
+}
+
+.icon{
   width:58px;
   height:58px;
-  border-radius:50%;
-  background:linear-gradient(45deg,#f00,#f90,#d0f);
-  padding:3px;
   margin:auto;
-}
-.circle span{
-  display:block;
-  background:white;
-  width:52px;
-  height:52px;
-  border-radius:50%;
-  padding-top:15px;
-}
-.post{
-  background:white;
-  margin-top:10px;
-  border-top:1px solid #ddd;
-  border-bottom:1px solid #ddd;
-}
-.posthead{
-  padding:12px;
-  font-weight:bold;
-}
-.photo{
-  height:380px;
-  background:linear-gradient(135deg,#222,#555,#111);
+  border-radius:16px;
   display:flex;
   align-items:center;
   justify-content:center;
-  color:white;
-  font-size:35px;
-}
-.actions{
-  padding:12px;
   font-size:25px;
+  font-weight:bold;
+  color:white;
 }
-.caption{
-  padding:0 12px 15px;
+
+.instagram .icon{
+  background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
 }
-button{
-  cursor:pointer;
+
+.facebook .icon{
+  background:#1877f2;
+}
+
+.whatsapp .icon{
+  background:#25d366;
+}
+
+.youtube .icon{
+  background:#ff0000;
+}
+
+.snapchat .icon{
+  background:#ffd600;
+  color:#111;
+}
+
+.app h2{
+  margin-top:12px;
+  font-size:18px;
+}
+
+.app p{
+  margin-top:5px;
+  color:#777;
+  font-size:12px;
+}
+
+footer{
+  text-align:center;
+  margin-top:35px;
+  color:#888;
+  font-size:13px;
 }
 </style>
 </head>
@@ -116,90 +143,66 @@ button{
 <body>
 
 <header>
-  <div class="logo">SK Social Media</div>
-  <div class="icons">♡　✉</div>
+  <div class="logo">SK Social</div>
+  <div class="menu">☰</div>
 </header>
 
-<main>
+<div class="container">
 
-<div class="story">
-  <div>
-    <div class="circle"><span>+</span></div>
-    Your story
+  <div class="welcome">
+    <h1>SK Social</h1>
+    <p>All your favourite social platforms in one place</p>
   </div>
-  <div>
-    <div class="circle"><span>SK</span></div>
-    SK User
+
+  <div class="apps">
+
+    <a class="app instagram"
+       href="https://www.instagram.com/"
+       target="_blank">
+      <div class="icon">◎</div>
+      <h2>Instagram</h2>
+      <p>Open Instagram</p>
+    </a>
+
+    <a class="app facebook"
+       href="https://www.facebook.com/"
+       target="_blank">
+      <div class="icon">f</div>
+      <h2>Facebook</h2>
+      <p>Open Facebook</p>
+    </a>
+
+    <a class="app whatsapp"
+       href="https://web.whatsapp.com/"
+       target="_blank">
+      <div class="icon">☎</div>
+      <h2>WhatsApp</h2>
+      <p>Open WhatsApp Web</p>
+    </a>
+
+    <a class="app youtube"
+       href="https://www.youtube.com/"
+       target="_blank">
+      <div class="icon">▶</div>
+      <h2>YouTube</h2>
+      <p>Open YouTube</p>
+    </a>
+
+    <a class="app snapchat"
+       href="https://www.snapchat.com/"
+       target="_blank">
+      <div class="icon">👻</div>
+      <h2>Snapchat</h2>
+      <p>Open Snapchat</p>
+    </a>
+
   </div>
-  <div>
-    <div class="circle"><span>YT</span></div>
-    Creator
-  </div>
-  <div>
-    <div class="circle"><span>FF</span></div>
-    Gamer
-  </div>
+
+  <footer>
+    © 2026 SK Social
+  </footer>
+
 </div>
-
-<div class="post">
-
-  <div class="posthead">
-    👤 SK Social User
-  </div>
-
-  <div class="photo">
-    SK SOCIAL
-  </div>
-
-  <div class="actions">
-    <button onclick="likePost()">♡</button>
-    <button onclick="commentPost()">💬</button>
-    <button>➤</button>
-    <button onclick="savePost()">🔖</button>
-  </div>
-
-  <div class="caption">
-    <b id="likes">0 likes</b>
-    <br><br>
-    <b>SK Social User</b>
-    Welcome to SK Social Media!
-    <br><br>
-    <span id="comment"></span>
-  </div>
-
-</div>
-
-</main>
-
-<nav>
-  <button>🏠<br>Home</button>
-  <button>🔍<br>Search</button>
-  <button>➕<br>Create</button>
-  <button>🎬<br>Reels</button>
-  <button>👤<br>Profile</button>
-</nav>
-
-<script>
-let likes = 0;
-
-function likePost(){
-  likes++;
-  document.getElementById("likes").innerText =
-    likes + " likes";
-}
-
-function commentPost(){
-  let c = prompt("Write a comment:");
-  if(c){
-    document.getElementById("comment").innerText =
-      "💬 You: " + c;
-  }
-}
-
-function savePost(){
-  alert("Post saved!");
-}
-</script>
 
 </body>
 </html>
