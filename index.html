@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SK Social Media</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#fafafa;
+  color:#111;
+}
+header{
+  height:60px;
+  background:white;
+  border-bottom:1px solid #ddd;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 18px;
+  position:sticky;
+  top:0;
+}
+.logo{
+  font-size:24px;
+  font-weight:bold;
+}
+.icons{
+  font-size:24px;
+}
+nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:65px;
+  background:white;
+  border-top:1px solid #ddd;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+}
+nav button{
+  border:0;
+  background:none;
+  font-size:14px;
+}
+main{
+  max-width:600px;
+  margin:auto;
+  padding-bottom:80px;
+}
+.story{
+  display:flex;
+  gap:15px;
+  overflow-x:auto;
+  padding:15px;
+  background:white;
+}
+.story div{
+  min-width:65px;
+  text-align:center;
+  font-size:12px;
+}
+.circle{
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  background:linear-gradient(45deg,#f00,#f90,#d0f);
+  padding:3px;
+  margin:auto;
+}
+.circle span{
+  display:block;
+  background:white;
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  padding-top:15px;
+}
+.post{
+  background:white;
+  margin-top:10px;
+  border-top:1px solid #ddd;
+  border-bottom:1px solid #ddd;
+}
+.posthead{
+  padding:12px;
+  font-weight:bold;
+}
+.photo{
+  height:380px;
+  background:linear-gradient(135deg,#222,#555,#111);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-size:35px;
+}
+.actions{
+  padding:12px;
+  font-size:25px;
+}
+.caption{
+  padding:0 12px 15px;
+}
+button{
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">SK Social Media</div>
+  <div class="icons">♡　✉</div>
+</header>
+
+<main>
+
+<div class="story">
+  <div>
+    <div class="circle"><span>+</span></div>
+    Your story
+  </div>
+  <div>
+    <div class="circle"><span>SK</span></div>
+    SK User
+  </div>
+  <div>
+    <div class="circle"><span>YT</span></div>
+    Creator
+  </div>
+  <div>
+    <div class="circle"><span>FF</span></div>
+    Gamer
+  </div>
+</div>
+
+<div class="post">
+
+  <div class="posthead">
+    👤 SK Social User
+  </div>
+
+  <div class="photo">
+    SK SOCIAL
+  </div>
+
+  <div class="actions">
+    <button onclick="likePost()">♡</button>
+    <button onclick="commentPost()">💬</button>
+    <button>➤</button>
+    <button onclick="savePost()">🔖</button>
+  </div>
+
+  <div class="caption">
+    <b id="likes">0 likes</b>
+    <br><br>
+    <b>SK Social User</b>
+    Welcome to SK Social Media!
+    <br><br>
+    <span id="comment"></span>
+  </div>
+
+</div>
+
+</main>
+
+<nav>
+  <button>🏠<br>Home</button>
+  <button>🔍<br>Search</button>
+  <button>➕<br>Create</button>
+  <button>🎬<br>Reels</button>
+  <button>👤<br>Profile</button>
+</nav>
+
+<script>
+let likes = 0;
+
+function likePost(){
+  likes++;
+  document.getElementById("likes").innerText =
+    likes + " likes";
+}
+
+function commentPost(){
+  let c = prompt("Write a comment:");
+  if(c){
+    document.getElementById("comment").innerText =
+      "💬 You: " + c;
+  }
+}
+
+function savePost(){
+  alert("Post saved!");
+}
+</script>
+
+</body>
+</html>
