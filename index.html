@@ -1,395 +1,304 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SK Social</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<title>SK Shooting 3D</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif;
-}
-
+*{box-sizing:border-box}
 body{
-  background:#fafafa;
-  color:#111;
-  padding-bottom:65px;
+  margin:0;
+  overflow:hidden;
+  background:#000;
+  font-family:Arial,sans-serif;
+  touch-action:none;
 }
-
-header{
-  height:60px;
-  background:white;
-  border-bottom:1px solid #ddd;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 18px;
-  position:sticky;
-  top:0;
-  z-index:10;
-}
-
-.logo{
-  font-size:25px;
+#game{position:fixed;inset:0}
+#ui{
+  position:fixed;
+  top:12px;
+  left:12px;
+  color:white;
+  font-size:18px;
   font-weight:bold;
+  z-index:5;
+  text-shadow:2px 2px 3px #000;
 }
-
-header button{
-  border:0;
-  background:none;
-  font-size:25px;
-}
-
-.stories{
-  display:flex;
-  gap:15px;
-  padding:14px;
-  background:white;
-  overflow-x:auto;
-  border-bottom:1px solid #ddd;
-}
-
-.story{
-  min-width:65px;
-  text-align:center;
-  font-size:12px;
-}
-
-.story-img{
-  width:58px;
-  height:58px;
-  border-radius:50%;
-  background:linear-gradient(45deg,#feda75,#d62976,#4f5bd5);
-  padding:3px;
-  margin:auto;
-}
-
-.story-img div{
-  width:100%;
-  height:100%;
-  background:#ddd;
-  border-radius:50%;
-}
-
-.post{
-  background:white;
-  margin:15px 0;
-  border-top:1px solid #ddd;
-  border-bottom:1px solid #ddd;
-}
-
-.post-head{
-  display:flex;
-  align-items:center;
-  padding:12px;
-  gap:10px;
-}
-
-.avatar{
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  background:#ddd;
-}
-
-.post-img{
-  width:100%;
-  height:330px;
-  background:linear-gradient(135deg,#222,#777);
-  display:flex;
-  align-items:center;
-  justify-content:center;
+#crosshair{
+  position:fixed;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
   color:white;
   font-size:30px;
+  z-index:4;
 }
-
-.actions{
-  padding:10px;
-  display:flex;
-  gap:18px;
-  font-size:25px;
-}
-
-.actions button{
-  border:0;
-  background:none;
-  font-size:25px;
-  cursor:pointer;
-}
-
-.likes{
-  padding:0 12px;
-  font-weight:bold;
-}
-
-.caption{
-  padding:8px 12px 15px;
-}
-
-.bottom{
+#shoot{
   position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  height:62px;
-  background:white;
-  border-top:1px solid #ddd;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  z-index:20;
-}
-
-.bottom button{
-  border:0;
-  background:none;
-  font-size:25px;
-}
-
-.page{
-  display:none;
-}
-
-.page.active{
-  display:block;
-}
-
-.profile{
-  background:white;
-  padding:25px;
-  text-align:center;
-}
-
-.profile-img{
+  right:25px;
+  bottom:35px;
   width:90px;
   height:90px;
   border-radius:50%;
-  background:#ccc;
-  margin:auto;
+  border:3px solid white;
+  background:rgba(220,30,30,.75);
+  color:white;
+  font-size:18px;
+  font-weight:bold;
+  z-index:6;
 }
-
-.profile h2{
-  margin:12px;
+#left,#right,#forward,#back{
+  position:fixed;
+  width:55px;
+  height:55px;
+  border-radius:15px;
+  border:2px solid white;
+  background:rgba(0,0,0,.45);
+  color:white;
+  font-size:25px;
+  z-index:6;
 }
+#forward{left:80px;bottom:135px}
+#left{left:20px;bottom:75px}
+#back{left:80px;bottom:15px}
+#right{left:140px;bottom:75px}
 
-.search{
-  padding:15px;
+#gameover{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.8);
+  color:white;
+  z-index:20;
+  text-align:center;
+  padding-top:30vh;
 }
-
-.search input{
-  width:100%;
-  padding:13px;
-  border:1px solid #ddd;
+#gameover h1{font-size:42px}
+#restart{
+  padding:15px 30px;
+  font-size:20px;
+  border:0;
   border-radius:10px;
-  font-size:16px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <div class="logo">SK Social</div>
-  <button onclick="alert('Messages')">✈️</button>
-</header>
+<div id="game"></div>
 
-<!-- HOME -->
-<div id="home" class="page active">
-
-<div class="stories">
-
-<div class="story">
-<div class="story-img"><div></div></div>
-You
+<div id="ui">
+  ❤️ Health: <span id="health">100</span><br>
+  🏆 Score: <span id="score">0</span>
 </div>
 
-<div class="story">
-<div class="story-img"><div></div></div>
-Friend
+<div id="crosshair">+</div>
+
+<button id="forward">▲</button>
+<button id="left">◀</button>
+<button id="back">▼</button>
+<button id="right">▶</button>
+<button id="shoot">FIRE</button>
+
+<div id="gameover">
+  <h1>SK SHOOTING</h1>
+  <h2>GAME OVER</h2>
+  <p>Score: <span id="finalScore">0</span></p>
+  <button id="restart">RESTART</button>
 </div>
 
-<div class="story">
-<div class="story-img"><div></div></div>
-Rahul
-</div>
-
-<div class="story">
-<div class="story-img"><div></div></div>
-Amit
-</div>
-
-<div class="story">
-<div class="story-img"><div></div></div>
-Neha
-</div>
-
-</div>
-
-<div class="post">
-
-<div class="post-head">
-<div class="avatar"></div>
-<b>sk_social</b>
-</div>
-
-<div class="post-img">
-SK SOCIAL
-</div>
-
-<div class="actions">
-<button onclick="likePost()">♡</button>
-<button onclick="comment()">💬</button>
-<button onclick="sharePost()">➤</button>
-</div>
-
-<div class="likes">
-<span id="likes">0</span> likes
-</div>
-
-<div class="caption">
-<b>sk_social</b> Welcome to SK Social 🚀
-</div>
-
-</div>
-
-</div>
-
-
-<!-- SEARCH -->
-
-<div id="search" class="page">
-
-<div class="search">
-<input type="text" placeholder="Search">
-</div>
-
-</div>
-
-
-<!-- CREATE -->
-
-<div id="create" class="page">
-
-<div style="padding:30px;text-align:center;background:white">
-
-<h2>Create Post</h2>
-
-<br>
-
-<input type="file" accept="image/*" onchange="previewImage(event)">
-
-<br><br>
-
-<img id="preview"
-style="max-width:100%;display:none;border-radius:10px;">
-
-</div>
-
-</div>
-
-
-<!-- PROFILE -->
-
-<div id="profile" class="page">
-
-<div class="profile">
-
-<div class="profile-img"></div>
-
-<h2>SK Social</h2>
-
-<p>@sk_social</p>
-
-<br>
-
-<b>0</b> Posts &nbsp;&nbsp;
-<b>0</b> Followers &nbsp;&nbsp;
-<b>0</b> Following
-
-<br><br>
-
-<button onclick="alert('Edit Profile')">
-Edit Profile
-</button>
-
-</div>
-
-</div>
-
-
-<!-- BOTTOM NAVIGATION -->
-
-<div class="bottom">
-
-<button onclick="showPage('home')">⌂</button>
-
-<button onclick="showPage('search')">🔍</button>
-
-<button onclick="showPage('create')">＋</button>
-
-<button onclick="alert('Reels')">▶</button>
-
-<button onclick="showPage('profile')">👤</button>
-
-</div>
-
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
 <script>
 
-let likes = 0;
+let scene,camera,renderer;
+let player;
+let enemies=[];
+let bullets=[];
+let health=100;
+let score=0;
+let gameRunning=true;
 
-function likePost(){
+const keys={
+  forward:false,
+  back:false,
+  left:false,
+  right:false
+};
 
-likes++;
+/* ---------------- SCENE ---------------- */
 
-document.getElementById("likes").innerText = likes;
+scene=new THREE.Scene();
+scene.background=new THREE.Color(0x87ceeb);
 
-}
+camera=new THREE.PerspectiveCamera(
+  70,
+  innerWidth/innerHeight,
+  0.1,
+  1000
+);
 
-function comment(){
+camera.position.set(0,2,8);
 
-let c = prompt("Write a comment:");
-
-if(c){
-
-alert("Comment added: " + c);
-
-}
-
-}
-
-function sharePost(){
-
-alert("Post shared!");
-
-}
-
-function showPage(page){
-
-document.querySelectorAll(".page").forEach(function(p){
-
-p.classList.remove("active");
-
+renderer=new THREE.WebGLRenderer({
+  antialias:true
 });
 
-document.getElementById(page).classList.add("active");
+renderer.setSize(innerWidth,innerHeight);
+renderer.shadowMap.enabled=true;
 
+document.getElementById("game").appendChild(renderer.domElement);
+
+/* ---------------- LIGHT ---------------- */
+
+const sunlight=new THREE.DirectionalLight(0xffffff,1.5);
+sunlight.position.set(10,20,10);
+sunlight.castShadow=true;
+scene.add(sunlight);
+
+scene.add(new THREE.AmbientLight(0xffffff,.5));
+
+/* ---------------- GROUND ---------------- */
+
+const groundGeometry=new THREE.PlaneGeometry(200,200);
+
+const groundMaterial=new THREE.MeshStandardMaterial({
+  color:0x3b7d3b
+});
+
+const ground=new THREE.Mesh(
+  groundGeometry,
+  groundMaterial
+);
+
+ground.rotation.x=-Math.PI/2;
+ground.receiveShadow=true;
+
+scene.add(ground);
+
+/* ---------------- PLAYER ---------------- */
+
+player=new THREE.Group();
+
+const body=new THREE.Mesh(
+  new THREE.BoxGeometry(1,1.5,.7),
+  new THREE.MeshStandardMaterial({color:0x2266cc})
+);
+
+body.position.y=1.3;
+body.castShadow=true;
+player.add(body);
+
+const head=new THREE.Mesh(
+  new THREE.SphereGeometry(.42,16,16),
+  new THREE.MeshStandardMaterial({color:0xffc49b})
+);
+
+head.position.y=2.35;
+head.castShadow=true;
+player.add(head);
+
+/* gun */
+
+const gun=new THREE.Mesh(
+  new THREE.BoxGeometry(.18,.18,1.2),
+  new THREE.MeshStandardMaterial({color:0x222222})
+);
+
+gun.position.set(.45,1.45,-.65);
+gun.rotation.x=-0.05;
+player.add(gun);
+
+player.position.set(0,0,8);
+scene.add(player);
+
+/* ---------------- MAP OBJECTS ---------------- */
+
+function createBox(x,z,w,h,d,color){
+
+  const mesh=new THREE.Mesh(
+    new THREE.BoxGeometry(w,h,d),
+    new THREE.MeshStandardMaterial({color:color})
+  );
+
+  mesh.position.set(x,h/2,z);
+  mesh.castShadow=true;
+  mesh.receiveShadow=true;
+
+  scene.add(mesh);
 }
 
-function previewImage(event){
+createBox(-8,-10,3,4,3,0x777777);
+createBox(8,-15,4,5,4,0x777777);
+createBox(-12,8,4,3,4,0x8b4513);
+createBox(12,5,4,4,4,0x8b4513);
+createBox(0,-25,8,5,3,0x666666);
 
-let image = document.getElementById("preview");
+/* ---------------- ENEMY ---------------- */
 
-image.src = URL.createObjectURL(event.target.files[0]);
+function createEnemy(){
 
-image.style.display = "block";
+  const enemy=new THREE.Group();
 
+  const body=new THREE.Mesh(
+    new THREE.BoxGeometry(1,1.5,.7),
+    new THREE.MeshStandardMaterial({color:0xcc2222})
+  );
+
+  body.position.y=1.2;
+  enemy.add(body);
+
+  const head=new THREE.Mesh(
+    new THREE.SphereGeometry(.4,16,16),
+    new THREE.MeshStandardMaterial({color:0xffaa88})
+  );
+
+  head.position.y=2.25;
+  enemy.add(head);
+
+  enemy.position.set(
+    (Math.random()-.5)*35,
+    0,
+    -10-Math.random()*30
+  );
+
+  enemy.userData.hp=2;
+
+  scene.add(enemy);
+  enemies.push(enemy);
 }
 
-</script>
+/* create enemies */
 
-</body>
-</html>
+for(let i=0;i<8;i++){
+  createEnemy();
+}
+
+/* ---------------- SHOOT ---------------- */
+
+function shoot(){
+
+  if(!gameRunning)return;
+
+  const bullet=new THREE.Mesh(
+    new THREE.SphereGeometry(.09,8,8),
+    new THREE.MeshBasicMaterial({color:0xffff00})
+  );
+
+  bullet.position.copy(camera.position);
+
+  const direction=new THREE.Vector3();
+
+  camera.getWorldDirection(direction);
+
+  bullet.userData.velocity=direction.multiplyScalar(.7);
+
+  scene.add(bullet);
+  bullets.push(bullet);
+}
+
+/* ---------------- MOVEMENT ---------------- */
+
+function
